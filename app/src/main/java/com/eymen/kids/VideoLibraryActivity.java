@@ -39,6 +39,7 @@ public final class VideoLibraryActivity extends Activity {
     private LinearLayout list;
     private TextView summary;
     private boolean downloadInProgress = false;
+    private String selectedSeriesId;
 
     private int dp(int value) {
         return Math.round(getResources().getDisplayMetrics().density * value);
@@ -77,6 +78,8 @@ public final class VideoLibraryActivity extends Activity {
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
         catalog = OfflineVideoStore.cachedCatalog(this);
+        selectedSeriesId = getIntent().getStringExtra("eymen.seriesId");
+        if (!OfflineVideoStore.validId(selectedSeriesId)) selectedSeriesId = null;
 
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
@@ -95,7 +98,9 @@ public final class VideoLibraryActivity extends Activity {
         Button close = button("← Geri", false);
         close.setOnClickListener(v -> finish());
         header.addView(close, new LinearLayout.LayoutParams(dp(102), dp(52)));
-        TextView heading = text("🌈 Eymen Kids • Video Arşivi", 20, Color.WHITE, true);
+        String headingText = selectedSeriesId == null ? "🌈 Eymen Kids • Video Arşivi"
+            : "🎬 " + selectedSeriesId.replace("-", " ").toUpperCase(new Locale("tr","TR"));
+        TextView heading = text(headingText, 20, Color.WHITE, true);
         heading.setPadding(dp(8), 0, 0, 0);
         header.addView(heading, new LinearLayout.LayoutParams(0, -2, 1));
         root.addView(header);
@@ -141,14 +146,35 @@ public final class VideoLibraryActivity extends Activity {
         list.removeAllViews();
         JSONArray videos = videoArray();
         int downloaded = 0;
+        java.util.ArrayList<JSONObject> visible = new java.util.ArrayList<>();
         for (int i = 0; i < videos.length(); i++) {
             JSONObject entry = videos.optJSONObject(i);
             if (entry == null) continue;
+            String group = entry.optString("series_id", entry.optString("id"));
+            if (selectedSeriesId == null || selectedSeriesId.equals(group)) visible.add(entry);
+        }
+        java.util.Collections.sort(visible, (a, b) -> {
+            int season = Integer.compare(a.optInt("season", 1), b.optInt("season", 1));
+            if (season != 0) return season;
+            int episode = Integer.compare(a.optInt("episode", 1), b.optInt("episode", 1));
+            return episode != 0 ? episode :
+                a.optString("id", "").compareTo(b.optString("id", ""));
+        });
+        int lastSeason = -1;
+        for (JSONObject entry : visible) {
+            int season = entry.optInt("season", 1);
+            if (selectedSeriesId != null && season != lastSeason) {
+                TextView seasonHeading = text("🎞️ " + season + ". Sezon", 21, 0xFF8149ED, true);
+                LinearLayout.LayoutParams headingParams = new LinearLayout.LayoutParams(-1, dp(48));
+                headingParams.topMargin = dp(13);
+                list.addView(seasonHeading, headingParams);
+                lastSeason = season;
+            }
             if (OfflineVideoStore.isDownloaded(this, entry)) downloaded++;
             addVideoCard(entry);
         }
-        summary.setText("📦 " + downloaded + " indirilen / " + videos.length() + " video");
-        if (videos.length() == 0) {
+        summary.setText("📦 " + downloaded + " indirilen / " + visible.size() + " video");
+        if (visible.isEmpty()) {
             LinearLayout info = new LinearLayout(this);
             info.setPadding(dp(22), dp(22), dp(22), dp(22));
             info.setOrientation(LinearLayout.VERTICAL);
@@ -169,7 +195,7 @@ public final class VideoLibraryActivity extends Activity {
 
     private void addVideoCard(JSONObject entry) {
         String id = entry.optString("id", "");
-        String title = entry.optString("title", "Video");
+        String title = entry.optString("episode_title", entry.optString("title", "Video"));
         String quality = entry.optString("quality", "1080p");
         long size = entry.optLong("size_bytes", 0);
         boolean saved = OfflineVideoStore.isDownloaded(this, entry);
@@ -184,7 +210,8 @@ public final class VideoLibraryActivity extends Activity {
 
         TextView name = text("🎬 " + title, 19, WHITE, true);
         card.addView(name);
-        TextView details = text(quality + "   •   " + sizeText(size)
+        TextView details = text("Sezon " + entry.optInt("season",1) + " • Bölüm " +
+            entry.optInt("episode",1) + "   •   " + quality + "   •   " + sizeText(size)
             + (saved ? "   •   ✅ İndirildi" : "   •   ☁️ GitHub'da"), 13, SOFT, false);
         details.setPadding(0, dp(7), 0, dp(7));
         card.addView(details);
@@ -227,8 +254,13 @@ public final class VideoLibraryActivity extends Activity {
                 })
                 .setNegativeButton("Vazgeç", null).show());
         } else {
-            Button download = button("⬇ Çevrimdışı İndir", true);
-            actions.addView(download, new LinearLayout.LayoutParams(-1, dp(50)));
+            Button online = button("▶ İzle", false);
+            actions.addView(online, new LinearLayout.LayoutParams(0, dp(50), 1));
+            online.setOnClickListener(v -> playOnline(entry));
+            Button download = button("⬇ İndir", true);
+            LinearLayout.LayoutParams downloadParams = new LinearLayout.LayoutParams(0, dp(50), 1);
+            downloadParams.leftMargin = dp(9);
+            actions.addView(download, downloadParams);
             download.setOnClickListener(v -> {
                 if (downloadInProgress) {
                     showMessage("Başka bir video indiriliyor.");
@@ -318,6 +350,24 @@ public final class VideoLibraryActivity extends Activity {
                 });
             }
         });
+    }
+
+    private void playOnline(JSONObject entry) {
+        if (OfflineVideoStore.isDownloaded(this, entry)) {
+            playDownloaded(entry);
+            return;
+        }
+        try {
+            String url = entry.getString("url");
+            OfflineVideoStore.validateReleaseUrl(url);
+            Intent player = new Intent(this, OfflinePlayerActivity.class);
+            player.putExtra(OfflinePlayerActivity.EXTRA_STREAM_URL, url);
+            player.putExtra(OfflinePlayerActivity.EXTRA_TITLE,
+                entry.optString("episode_title", entry.optString("title", "Video")));
+            startActivity(player);
+        } catch (Exception exception) {
+            showMessage("Video bağlantısı geçersiz");
+        }
     }
 
     private void playDownloaded(JSONObject entry) {
