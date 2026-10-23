@@ -30,3 +30,7 @@ E-posta: teknobloggs@hotmail.com
 
 ### ⚖️ Lisans
 Kaynak kodu [MIT lisansı](LICENSE) altındadır. Üçüncü taraf müzik, video ve görseller bu lisans kapsamında değildir.
+
+## 📦 APK içinde çevrimdışı video desteği
+
+Eymen Kids v1.2.0, `app/src/main/assets/videos/catalog.json` içindeki kayıtlara göre MP4 dosyalarını APK içinden, internet gerektirmeden oynatmak üzere hazırlanmıştır. Ayrıntılar için [video kütüphanesi talimatına](app/src/main/assets/videos/README.md) bakın. Gerçek videolar henüz pakete eklenmedi.
