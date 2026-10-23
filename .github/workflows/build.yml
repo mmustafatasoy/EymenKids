@@ -17,6 +17,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+      - name: UI startup smoke test
+        run: node scripts/smoke-ui.cjs
       - name: Install Android SDK packages
         run: |
           SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
