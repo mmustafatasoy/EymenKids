@@ -27,11 +27,12 @@ import java.io.File;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-/** Offline-only player. Never loads a remote HTTP(S) media URL. */
+/** Plays verified offline MP4 or streams explicitly selected GitHub Release MP4. */
 public final class OfflinePlayerActivity extends Activity {
     public static final String EXTRA_ASSET_FILE = "eymen.assetFile";
     public static final String EXTRA_TITLE = "eymen.title";
     public static final String EXTRA_DOWNLOADED_ID = "eymen.downloadedId";
+    public static final String EXTRA_STREAM_URL = "eymen.streamUrl";
     private static final Pattern SAFE_FILE = Pattern.compile("[a-z0-9][a-z0-9-]*\\.(mp4|m4v|webm)");
     private ExoPlayer player;
     private PlayerView playerView;
@@ -94,7 +95,7 @@ public final class OfflinePlayerActivity extends Activity {
             ? "Eymen Kids" : getIntent().getStringExtra(EXTRA_TITLE));
         info.addView(title);
         TextView badge = new TextView(this);
-        badge.setText("📦 İNTERNETSİZ • EYMEN KIDS");
+        badge.setText(getIntent().getStringExtra(EXTRA_STREAM_URL) != null ? "🌐 ÇEVRİMİÇİ • EYMEN KIDS" : "📦 İNTERNETSİZ • EYMEN KIDS");
         badge.setTextSize(11);
         badge.setTextColor(0xFF93EBCD);
         info.addView(badge);
@@ -131,6 +132,14 @@ public final class OfflinePlayerActivity extends Activity {
                 return;
             }
             uri = Uri.parse("asset:///videos/" + file);
+        } else if (getIntent().getStringExtra(EXTRA_STREAM_URL) != null) {
+            String videoUrl = getIntent().getStringExtra(EXTRA_STREAM_URL);
+            try {
+                OfflineVideoStore.validateReleaseUrl(videoUrl);
+                uri = Uri.parse(videoUrl);
+            } catch (Exception exception) {
+                showError("Video kaynağı güvenilir değil."); return;
+            }
         } else {
             Uri selected = getIntent().getData();
             if (selected != null && "content".equals(selected.getScheme())) {
@@ -146,7 +155,7 @@ public final class OfflinePlayerActivity extends Activity {
         player.addListener(new Player.Listener() {
             @Override public void onPlayerError(PlaybackException error) {
                 Toast.makeText(OfflinePlayerActivity.this,
-                    "Video açılamadı. H.264/AAC MP4 biçimini deneyin.", Toast.LENGTH_LONG).show();
+                    "Video açılamadı. Bağlantıyı veya MP4 biçimini kontrol edin.", Toast.LENGTH_LONG).show();
             }
         });
         player.setMediaItem(MediaItem.fromUri(uri));
