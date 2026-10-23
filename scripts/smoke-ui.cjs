@@ -71,7 +71,7 @@ assert(lookup("#modalWrap").classList.contains("open"),"About modal did not open
 assert(lookup("#modalTitle").textContent.includes("Hakkında"),"About label incorrect");
 assert(window.eymenBack(),"Hardware back did not dismiss About");
 assert(!lookup("#modalWrap").classList.contains("open"),"About modal stuck");
-lookup("#searchInput").value="arı";
+lookup("#searchInput").value="vız";
 lookup("#searchInput").listeners.input({target:lookup("#searchInput")});
 assert(lookup("#searchResults").hidden===false,"Search results hidden");
 assert(lookup("#resultGrid").children.length===1,"Search filtering incorrect");
