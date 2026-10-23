@@ -1,4 +1,14 @@
 {
   "schema_version": 1,
-  "videos": []
+  "videos": [
+    {
+      "id": "cu-cu-cu",
+      "title": "Çu Çu Çu",
+      "description": "Çocuk şarkısı • yüksek kaliteli çevrimdışı izleme",
+      "quality": "720p HD",
+      "size_bytes": 8653680,
+      "sha256": "425b0baae27df852ce878234e9a02355f133c69fa95116c8c526764f7d38e144",
+      "url": "https://github.com/mmustafatasoy/EymenKids/releases/download/kids-videos-1/cu-cu-cu.mp4"
+    }
+  ]
 }
