@@ -21,7 +21,7 @@ import java.util.Set;
 
 /**
  * GitHub is only a delivery server. Downloaded MP4 files are stored in
- * /data/data/com.eymen.kids/files/offline_videos and are never streamed.
+ * /data/data/com.eymen.kids/files/offline_videos and can also be streamed from trusted GitHub Releases when online.
  */
 public final class OfflineVideoStore {
     private OfflineVideoStore() {}
@@ -92,6 +92,14 @@ public final class OfflineVideoStore {
         Set<String> knownIds = new HashSet<>();
         for (int i = 0; i < videos.length(); i++) {
             JSONObject video = videos.getJSONObject(i);
+            String group = video.optString("series_id", video.optString("id"));
+            if (!validId(group)) throw new IOException("Geçersiz seri kimliği");
+            int season = video.optInt("season", 1), episode = video.optInt("episode", 1);
+            if (season < 1 || season > 99 || episode < 1 || episode > 9999)
+                throw new IOException("Geçersiz sezon / bölüm numarası");
+        }
+        for (int i = 0; i < videos.length(); i++) {
+            JSONObject video = videos.getJSONObject(i);
             String id = video.optString("id", "");
             if (!validId(id) || !knownIds.add(id)) throw new IOException("Geçersiz veya yinelenen video kimliği");
             if (video.optString("title", "").trim().length() == 0
@@ -124,7 +132,7 @@ public final class OfflineVideoStore {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(12000);
         connection.setReadTimeout(15000);
-        connection.setRequestProperty("User-Agent", "EymenKidsAndroid/1.4");
+        connection.setRequestProperty("User-Agent", "EymenKidsAndroid/1.6");
         try {
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
                 throw new IOException("GitHub katalogu açılamadı (HTTP " + connection.getResponseCode() + ")");
@@ -146,7 +154,7 @@ public final class OfflineVideoStore {
     }
 
     /** Accept only this project's GitHub Release MP4 assets, never YouTube URLs. */
-    private static URL validateReleaseUrl(String source) throws IOException {
+    public static URL validateReleaseUrl(String source) throws IOException {
         try {
             URL result = new URL(source);
             if (!"https".equalsIgnoreCase(result.getProtocol())
@@ -183,7 +191,7 @@ public final class OfflineVideoStore {
             connection.setReadTimeout(30000);
             connection.setRequestProperty("Accept", "application/octet-stream");
             connection.setRequestProperty("Accept-Encoding", "identity");
-            connection.setRequestProperty("User-Agent", "EymenKidsAndroid/1.4");
+            connection.setRequestProperty("User-Agent", "EymenKidsAndroid/1.6");
             int code = connection.getResponseCode();
             if (code == 301 || code == 302 || code == 303 || code == 307 || code == 308) {
                 String target = connection.getHeaderField("Location");
