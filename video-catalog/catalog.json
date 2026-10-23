@@ -2,6 +2,20 @@
   "schema_version": 1,
   "videos": [
     {
+      "id": "ari-viz-viz-s01e01-ari-viz-viz",
+      "series_id": "ari-viz-viz",
+      "series_title": "Arı Vız Vız",
+      "season": 1,
+      "episode": 1,
+      "episode_title": "Arı Vız Vız",
+      "title": "Arı Vız Vız",
+      "description": "Arı Vız Vız • 1. Sezon, 1. Bölüm",
+      "quality": "MP4",
+      "size_bytes": 12788894,
+      "sha256": "ace669d92dd2c3428a96c4a9a64971a673a39a365f819e493e587b48133dbfaf",
+      "url": "https://github.com/mmustafatasoy/EymenKids/releases/download/kids-videos-8/ari-viz-viz-s01e01-ari-viz-viz.mp4"
+    },
+    {
       "id": "bakkal-amca-s01e01-bakkal-amca",
       "title": "Bakkal Amca",
       "description": "Bakkal Amca • Sezon 1, Bölüm 1",
