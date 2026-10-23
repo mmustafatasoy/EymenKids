@@ -28,3 +28,26 @@ Desteklenen kart kimlikleri: `cu-cu-cu`, `bakkal-amca`, `niloya`, `kral-sakir`, 
 - Mevcut Android WebView oynatıcısı paketli MP4'leri yerel `WebViewAssetLoader` üzerinden açar. Çok büyük medya, ileri/geri sarma veya farklı Android TV cihazları için ayrıca cihaz testi ve gerektiğinde Media3/ExoPlayer geçişi önerilir.
 - Başkasına ait şarkı, çizgi film ve video dosyalarını dağıtmadan önce gerekli izinleri alın. Ekrandaki resimler de medya lisansı sağlamaz.
 - Uygulama kaldırılmadığı sürece, aynı imzalı APK sürümlerine güncelleme normalde kullanıcı ayarlarını korur; APK içine gömülü videoların sürümleri yeni paketin içeriğiyle değiştirilir.
+
+## FT-P_DUFtIA denemesi ve native oynatıcı (v1.3.0)
+
+Gönderilen YouTube referansı: https://youtu.be/FT-P_DUFtIA?feature=shared
+
+Bu bağlantı doğrudan MP4 olmadığı için, uygulama bağlantıyı YouTube'dan indirmez veya çevrimiçi oynatmaz. MP4 dosyasını yalnızca videoyu bu şekilde çoğaltma/dağıtma izniniz varsa ekleyin.
+
+1. H.264 (AVC) + AAC ile kodlanmış, tercihen 1080p bir MP4 dosyasını `app/src/main/assets/videos/ft-p-duftia.mp4` yoluna ekleyin.
+2. `catalog.json` içeriğini aşağıdaki gibi ayarlayın:
+
+```json
+{
+  "version": 1,
+  "videos": [
+    {"id": "ft-p-duftia", "file": "ft-p-duftia.mp4"}
+  ]
+}
+```
+
+3. GitHub Actions içinde APK'yı derleyin. Deneme Videosu kartına dokununca uygulamanın Android Media3 yerel oynatıcısı açılır ve `asset:///videos/ft-p-duftia.mp4` kaynağını internet kullanmadan oynatır.
+4. Native oynatıcıyı videoyu APK'ya eklemeden test etmek için Deneme Videosu → **Telefonda Video Seç** yoluyla cihazdaki herhangi bir MP4 dosyasını açın.
+
+Not: GitHub'ın normal Git depolarında 100 MiB tek dosya yükleme sınırı vardır. Büyük bir MP4 için lisanslı medya deposundan CI sırasında indirme veya farklı bir dağıtım yöntemi gerekir. Telif hakkı sahibi izni, görsel kalite ve kaynak MP4'ün gerçek dosya boyutu ayrıca doğrulanmalıdır.
