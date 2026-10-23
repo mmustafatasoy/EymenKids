@@ -47,7 +47,8 @@ const storage=new Map();
 storage.set('eymen_video_catalog',JSON.stringify([
  {id:'niloya-s01e02-ucurtma',series_id:'niloya',season:1,episode:2,episode_title:'Uçurtma',title:'Uçurtma',quality:'720p'},
  {id:'niloya-s02e01-kar-yagiyor',series_id:'niloya',season:2,episode:1,episode_title:'Kar Yağıyor',title:'Kar Yağıyor',quality:'720p'},
- {id:'niloya-s01e01-tospik',series_id:'niloya',season:1,episode:1,episode_title:'Tospik',title:'Tospik',quality:'720p'}
+ {id:'niloya-s01e01-tospik',series_id:'niloya',season:1,episode:1,episode_title:'Tospik',title:'Tospik',quality:'720p'},
+ {id:'pepee-s01e01-oyun',series_id:'pepee',series_title:'Pepee',season:1,episode:1,episode_title:'Oyun',title:'Oyun',quality:'720p'}
 ]));
 const window={scrollTo(){},location:{href:""},addEventListener(){}};
 const context={
@@ -64,6 +65,7 @@ assert.equal(typeof window.eymenBack,"function","Back key handler missing");
 assert(lookup("#featuredGrid").children.length===4,"Featured cards did not initialize");
 assert(lookup("#songGrid").children.length>=6,"Songs section did not initialize");
 assert(lookup("#cartoonGrid").children.length>=3,"Cartoons section did not initialize");
+assert(lookup("#cartoonGrid").children.some(card=>card.dataset.video==="pepee"),"New series is not shown automatically from GitHub catalog");
 lookup("#menuToggle").click();
 assert(lookup("#drawer").classList.contains("open"),"Drawer cannot open");
 assert(lookup("#backdrop").classList.contains("show"),"Drawer backdrop missing");
