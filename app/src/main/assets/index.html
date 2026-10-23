@@ -154,6 +154,27 @@ main{padding:28px 0 60px}
 @media(max-width:900px){.episodes-list{grid-template-columns:1fr}}
 @media(max-width:600px){.series-hero{gap:11px;padding:11px;border-radius:21px}.series-hero img{width:39%;max-width:none;border-radius:13px}.series-hero h2{font-size:24px}.series-hero p{font-size:12px}.episode-card{padding:9px;gap:10px;border-radius:17px}.episode-thumb{width:38%;border-radius:11px}.episode-content strong{font-size:14px}.episode-meta{font-size:11px;margin-bottom:7px}.episode-action{font-size:11px;padding:7px 10px}}
 
+
+/* Whale OS / Android TV: comfortably readable at 1366x768 and visible overscan. */
+.eymen-tv .container{width:calc(100% - 84px);max-width:1380px}
+.eymen-tv .topbar-inner{min-height:72px}
+.eymen-tv .hero{min-height:300px}
+.eymen-tv main{padding:16px 0 48px}
+.eymen-tv .feature-strip{margin:13px 0 24px}
+.eymen-tv .video-card,
+.eymen-tv .episode-action,
+.eymen-tv .season-chip,
+.eymen-tv .btn{transition:transform .15s ease,box-shadow .15s ease}
+.eymen-tv button:focus,
+.eymen-tv a:focus,
+.eymen-tv input:focus{
+  outline:5px solid #ffd93f!important;outline-offset:3px!important;
+  box-shadow:0 0 0 9px rgba(103,60,255,.33)!important;
+  z-index:3;position:relative
+}
+.eymen-tv .video-card:focus{transform:scale(1.045);z-index:5}
+.eymen-tv .episode-action:focus,
+.eymen-tv .season-chip:focus{transform:scale(1.04)}
 </style>
 </head>
 <body>
@@ -259,7 +280,7 @@ main{padding:28px 0 60px}
 <script>
 (function(){
 'use strict';
-const APP_VERSION='1.6.1';
+const APP_VERSION='1.8.0';
 const UI_CONFIG_URL='https://raw.githubusercontent.com/mmustafatasoy/EymenKids/main/ui-config.json';
 const VIDEO_CATALOG_URL='https://raw.githubusercontent.com/mmustafatasoy/EymenKids/main/video-catalog/catalog.json';
 const DEFAULT_CONFIG={
@@ -494,7 +515,7 @@ function openAbout(){
   'Geliştirici: Muhammet Atasoy',
   'GitHub: github.com/mmustafatasoy/EymenKids',
   'Videoları bir kez indirip Android cihazda internetsiz oynatabilirsin.',
-  'Uygulama Android için geliştirilmiştir. TV uyarlamaları sonraki aşamadır.'
+  'Android TV ve uyumlu Whale OS televizyonlarda kumanda yön tuşları ve OK ile kullanılabilir.'
  ],null,null);
 }
 async function getJSON(url){
@@ -569,7 +590,42 @@ function initialize(){
  $('#heroPlay').addEventListener('click',()=>playItem('cu-cu-cu'));
  $('#heroBrowse').addEventListener('click',()=>$('#discover').scrollIntoView({behavior:'smooth',block:'start'}));
  $('#searchInput').addEventListener('input',event=>filterSearch(event.target.value));
+
+ // Four-way directional focus: Android TV and Whale OS remotes.
+ function handleTvDirection(key){
+   const selector='button:not([disabled]), a[href], input:not([disabled]), [tabindex="0"]';
+   const focusable=[...document.querySelectorAll(selector)]
+    .filter(el=>!el.closest('[hidden], [aria-hidden="true"]'))
+    .filter(el=>{
+      const style=getComputedStyle(el),r=el.getBoundingClientRect();
+      return style.visibility!=='hidden'&&style.display!=='none'&&r.width>0&&r.height>0;
+    });
+   if(!focusable.length)return false;
+   const active=document.activeElement;
+   if(!focusable.includes(active)){focusable[0].focus();return true}
+   const center=r=>({x:r.left+r.width/2,y:r.top+r.height/2});
+   const a=center(active.getBoundingClientRect());
+   let best=null,score=Infinity;
+   for(const item of focusable){
+     if(item===active)continue;
+     const b=center(item.getBoundingClientRect()),dx=b.x-a.x,dy=b.y-a.y;
+     const main=(key==='ArrowRight'?dx:key==='ArrowLeft'?-dx:key==='ArrowDown'?dy:-dy);
+     const cross=(key==='ArrowRight'||key==='ArrowLeft')?Math.abs(dy):Math.abs(dx);
+     if(main<9)continue;
+     const s=main+cross*2.5;
+     if(s<score){score=s;best=item}
+   }
+   if(!best)return false;
+   best.focus({preventScroll:true});
+   best.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});
+   return true;
+ }
  document.addEventListener('keydown',event=>{
+  if(document.documentElement.classList.contains('eymen-tv')&&
+     ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(event.key)&&
+     !(event.target instanceof HTMLInputElement)){
+    if(handleTvDirection(event.key)){event.preventDefault();return}
+  }
   if(event.key==='Escape'||event.key==='Backspace'&&event.target.tagName!=='INPUT'){
    if(window.eymenBack())event.preventDefault();
   }
