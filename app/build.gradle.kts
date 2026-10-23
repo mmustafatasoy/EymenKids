@@ -1,7 +1,7 @@
 plugins { id("com.android.application") }
 android {
   namespace = "com.eymen.kids"
-  compileSdk = 35
+  compileSdk = 36
   androidResources { noCompress += listOf("mp4", "m4v", "webm") }
   defaultConfig {
     applicationId = "com.eymen.kids"
