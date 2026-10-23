@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
     setContentView(container);
     WebSettings settings = web.getSettings();
     settings.setJavaScriptEnabled(true);
-    settings.setUserAgentString(settings.getUserAgentString() + " EymenKidsAndroid/1.3");
+    settings.setUserAgentString(settings.getUserAgentString() + " EymenKidsAndroid/1.4");
     settings.setDomStorageEnabled(true);
     settings.setAllowFileAccess(false);
     settings.setMediaPlaybackRequiresUserGesture(false);
@@ -63,7 +63,34 @@ public class MainActivity extends Activity {
         Uri uri = request.getUrl();
         if ("eymenkids".equals(uri.getScheme())) {
           if (!request.isForMainFrame()) return true;
-          if ("play".equals(uri.getHost())) {
+          if ("library".equals(uri.getHost())) {
+            startActivity(new Intent(MainActivity.this, VideoLibraryActivity.class));
+          } else if ("select".equals(uri.getHost())) {
+            String id = uri.getQueryParameter("id");
+            boolean played = false;
+            if (OfflineVideoStore.validId(id)) {
+              org.json.JSONArray videos = OfflineVideoStore.cachedCatalog(MainActivity.this).optJSONArray("videos");
+              if (videos != null) {
+                for (int i = 0; i < videos.length(); i++) {
+                  org.json.JSONObject item = videos.optJSONObject(i);
+                  if (item != null && id.equals(item.optString("id")) &&
+                      OfflineVideoStore.isDownloaded(MainActivity.this, item)) {
+                    Intent player = new Intent(MainActivity.this, OfflinePlayerActivity.class);
+                    player.putExtra(OfflinePlayerActivity.EXTRA_DOWNLOADED_ID, id);
+                    player.putExtra(OfflinePlayerActivity.EXTRA_TITLE, item.optString("title", "Eymen Kids"));
+                    startActivity(player);
+                    played = true;
+                    break;
+                  }
+                }
+              }
+            }
+            if (!played) {
+              Intent library = new Intent(MainActivity.this, VideoLibraryActivity.class);
+              library.putExtra("eymen.highlightId", id);
+              startActivity(library);
+            }
+          } else if ("play".equals(uri.getHost())) {
             String file = uri.getQueryParameter("file");
             String title = uri.getQueryParameter("title");
             if (file != null && file.matches("[a-z0-9][a-z0-9-]*\\.(mp4|m4v|webm)")) {
