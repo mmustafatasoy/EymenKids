@@ -2,6 +2,20 @@
   "schema_version": 1,
   "videos": [
     {
+      "id": "bakkal-amca-s01e01-bakkal-amca",
+      "title": "Bakkal Amca",
+      "description": "Bakkal Amca • Sezon 1, Bölüm 1",
+      "quality": "MP4",
+      "size_bytes": 19183923,
+      "sha256": "7d870ceb8adb64b9fa53133eeece4331248028169288b7a178d1b7cf3730a6a3",
+      "url": "https://github.com/mmustafatasoy/EymenKids/releases/download/kids-videos-2/Kukuli.Bakkal.Amca._.Yeni.Klip.BakkalAmca.En.cok.Izlenen.Turk.YouTube.Videosu.mp4",
+      "series_id": "bakkal-amca",
+      "series_title": "Bakkal Amca",
+      "season": 1,
+      "episode": 1,
+      "episode_title": "Bakkal Amca"
+    },
+    {
       "id": "cu-cu-cu",
       "title": "Çu Çu Çu",
       "description": "Çocuk şarkısı • yüksek kaliteli çevrimdışı izleme",
