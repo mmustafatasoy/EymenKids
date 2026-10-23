@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
           if ("play".equals(uri.getHost())) {
             String file = uri.getQueryParameter("file");
             String title = uri.getQueryParameter("title");
-            if (file != null && file.matches("[a-z0-9][a-z0-9-]*\\\\.(mp4|m4v|webm)")) {
+            if (file != null && file.matches("[a-z0-9][a-z0-9-]*\\.(mp4|m4v|webm)")) {
               Intent nativePlayer = new Intent(MainActivity.this, OfflinePlayerActivity.class);
               nativePlayer.putExtra(OfflinePlayerActivity.EXTRA_ASSET_FILE, file);
               nativePlayer.putExtra(OfflinePlayerActivity.EXTRA_TITLE, title);
