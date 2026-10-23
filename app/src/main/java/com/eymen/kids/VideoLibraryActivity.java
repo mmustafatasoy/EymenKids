@@ -29,10 +29,10 @@ import java.util.concurrent.Executors;
 
 /** TV/phone-friendly offline video library, synchronized with a public GitHub catalog. */
 public final class VideoLibraryActivity extends Activity {
-    private static final int NAVY = 0xFF061436;
-    private static final int CARD = 0xFF102757;
-    private static final int WHITE = 0xFFF5F9FF;
-    private static final int SOFT = 0xFFBFCFE9;
+    private static final int NAVY = 0xFF433364;
+    private static final int CARD = 0xFFFFFFFF;
+    private static final int WHITE = 0xFF293452;
+    private static final int SOFT = 0xFF7785A0;
     private static final int GOLD = 0xFFFFDA4E;
     private final ExecutorService worker = Executors.newSingleThreadExecutor();
     private JSONObject catalog;
@@ -66,10 +66,10 @@ public final class VideoLibraryActivity extends Activity {
         Button b = new Button(this);
         b.setText(label);
         b.setAllCaps(false);
-        b.setTextColor(primary ? NAVY : WHITE);
+        b.setTextColor(primary ? NAVY : Color.WHITE);
         b.setTextSize(14);
         b.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        b.setBackgroundTintList(ColorStateList.valueOf(primary ? GOLD : 0xFF2253A1));
+        b.setBackgroundTintList(ColorStateList.valueOf(primary ? GOLD : 0xFF8149ED));
         b.setMinHeight(dp(46));
         return b;
     }
@@ -82,14 +82,20 @@ public final class VideoLibraryActivity extends Activity {
         root.setOrientation(LinearLayout.VERTICAL);
         root.setPadding(dp(12), dp(12), dp(12), 0);
         root.setBackground(new GradientDrawable(GradientDrawable.Orientation.TL_BR,
-            new int[]{0xFF132B63, NAVY, 0xFF050B27}));
+            new int[]{0xFFECFAFF, 0xFFF5E9FF, 0xFFFFFAF4}));
 
         LinearLayout header = new LinearLayout(this);
         header.setGravity(Gravity.CENTER_VERTICAL);
+        header.setPadding(dp(10), dp(10), dp(10), dp(10));
+        GradientDrawable headerBackground = new GradientDrawable(
+            GradientDrawable.Orientation.LEFT_RIGHT,
+            new int[]{0xFF8149ED, 0xFFFA579B});
+        headerBackground.setCornerRadius(dp(22));
+        header.setBackground(headerBackground);
         Button close = button("← Geri", false);
         close.setOnClickListener(v -> finish());
         header.addView(close, new LinearLayout.LayoutParams(dp(102), dp(52)));
-        TextView heading = text("🌈 Eymen Kids • Video Arşivi", 20, WHITE, true);
+        TextView heading = text("🌈 Eymen Kids • Video Arşivi", 20, Color.WHITE, true);
         heading.setPadding(dp(8), 0, 0, 0);
         header.addView(heading, new LinearLayout.LayoutParams(0, -2, 1));
         root.addView(header);
@@ -100,7 +106,7 @@ public final class VideoLibraryActivity extends Activity {
 
         LinearLayout top = new LinearLayout(this);
         top.setGravity(Gravity.CENTER_VERTICAL);
-        summary = text("Kaydedilmiş videolar yükleniyor...", 13, 0xFF91E4CC, false);
+        summary = text("Kaydedilmiş videolar yükleniyor...", 13, 0xFF1A9278, false);
         top.addView(summary, new LinearLayout.LayoutParams(0, -2, 1));
         Button refresh = button("↻ Yenile", true);
         refresh.setOnClickListener(v -> refreshCatalog());
@@ -146,7 +152,7 @@ public final class VideoLibraryActivity extends Activity {
             LinearLayout info = new LinearLayout(this);
             info.setPadding(dp(22), dp(22), dp(22), dp(22));
             info.setOrientation(LinearLayout.VERTICAL);
-            info.setBackground(background(CARD, 0xFF3688D1, 20));
+            info.setBackground(background(CARD, 0xFFB99CF4, 20));
             TextView heading = text("📺 Henüz video yayımlanmadı", 21, WHITE, true);
             info.addView(heading);
             TextView description = text(
@@ -171,7 +177,7 @@ public final class VideoLibraryActivity extends Activity {
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
         card.setPadding(dp(16), dp(13), dp(16), dp(15));
-        card.setBackground(background(CARD, saved ? 0xFF35BC8B : 0xFF2960A6, 19));
+        card.setBackground(background(CARD, saved ? 0xFF51D7B1 : 0xFFD5C4FA, 19));
         LinearLayout.LayoutParams cp = new LinearLayout.LayoutParams(-1, -2);
         cp.bottomMargin = dp(12);
         list.addView(card, cp);
@@ -195,7 +201,7 @@ public final class VideoLibraryActivity extends Activity {
         bar.setProgressTintList(ColorStateList.valueOf(GOLD));
         bar.setVisibility(View.GONE);
         card.addView(bar, new LinearLayout.LayoutParams(-1, dp(8)));
-        TextView progress = text("", 12, GOLD, true);
+        TextView progress = text("", 12, 0xFF7651CB, true);
         progress.setVisibility(View.GONE);
         card.addView(progress);
 
