@@ -4,6 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.*;
 import androidx.webkit.WebViewAssetLoader;
+import android.app.UiModeManager;
+import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.view.KeyEvent;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
@@ -17,17 +23,25 @@ public class MainActivity extends Activity {
   private View fullscreenView;
   private WebChromeClient.CustomViewCallback fullscreenCallback;
   private FrameLayout container;
+  private boolean tvMode = false;
 
   @Override public void onCreate(Bundle state) {
     super.onCreate(state);
+    UiModeManager manager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
+    tvMode = (manager != null &&
+        manager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION)
+        || getPackageManager().hasSystemFeature(PackageManager.FEATURE_LEANBACK);
+    if (tvMode) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
     container = new FrameLayout(this);
     final WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder().addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this)).build();
     web = new WebView(this);
     container.addView(web);
+    web.setFocusable(true);
+    web.setFocusableInTouchMode(true);
     setContentView(container);
     WebSettings settings = web.getSettings();
     settings.setJavaScriptEnabled(true);
-    settings.setUserAgentString(settings.getUserAgentString() + " EymenKidsAndroid/1.6.1");
+    settings.setUserAgentString(settings.getUserAgentString() + " EymenKidsAndroid/1.8.0");
     settings.setDomStorageEnabled(true);
     settings.setAllowFileAccess(false);
     settings.setMediaPlaybackRequiresUserGesture(false);
@@ -56,6 +70,17 @@ public class MainActivity extends Activity {
       @Override public void onHideCustomView() { closeFullscreen(); }
     });
     web.setWebViewClient(new WebViewClient() {
+      @Override public void onPageFinished(WebView view, String url) {
+        super.onPageFinished(view, url);
+        if (tvMode && url.startsWith("https://appassets.androidplatform.net/assets/")) {
+          view.evaluateJavascript(
+              "document.documentElement.classList.add('eymen-tv');"
+              + "window.__eymenTvMode=true;"
+              + "setTimeout(function(){var card=document.querySelector('.video-card');"
+              + "if(card){card.focus();}},200);", null);
+          view.requestFocus();
+        }
+      }
       @Override public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
         return assetLoader.shouldInterceptRequest(request.getUrl());
       }
@@ -174,6 +199,18 @@ public class MainActivity extends Activity {
     if (fullscreenCallback != null) fullscreenCallback.onCustomViewHidden();
     fullscreenCallback = null;
   }
+  @Override public boolean dispatchKeyEvent(KeyEvent event) {
+    // Standard remote D-pad navigation is handled by the WebView.
+    // ENTER/CENTER clicks the focused HTML button; MENU exposes the drawer.
+    if (tvMode && event.getAction() == KeyEvent.ACTION_UP
+        && event.getKeyCode() == KeyEvent.KEYCODE_MENU) {
+      web.evaluateJavascript(
+          "document.querySelector('#menuToggle')?.click()", null);
+      return true;
+    }
+    return super.dispatchKeyEvent(event);
+  }
+
   @Override public void onBackPressed() {
     if (fullscreenView != null) { closeFullscreen(); return; }
     web.evaluateJavascript("String(window.eymenBack && window.eymenBack())", result -> {
