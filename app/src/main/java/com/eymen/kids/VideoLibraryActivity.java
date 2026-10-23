@@ -40,6 +40,7 @@ public final class VideoLibraryActivity extends Activity {
     private TextView summary;
     private boolean downloadInProgress = false;
     private String selectedSeriesId;
+    private String selectedDownloadId;
 
     private int dp(int value) {
         return Math.round(getResources().getDisplayMetrics().density * value);
@@ -79,7 +80,9 @@ public final class VideoLibraryActivity extends Activity {
         super.onCreate(state);
         catalog = OfflineVideoStore.cachedCatalog(this);
         selectedSeriesId = getIntent().getStringExtra("eymen.seriesId");
+        selectedDownloadId = getIntent().getStringExtra("eymen.downloadId");
         if (!OfflineVideoStore.validId(selectedSeriesId)) selectedSeriesId = null;
+        if (!OfflineVideoStore.validId(selectedDownloadId)) selectedDownloadId = null;
 
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
@@ -261,6 +264,10 @@ public final class VideoLibraryActivity extends Activity {
             LinearLayout.LayoutParams downloadParams = new LinearLayout.LayoutParams(0, dp(50), 1);
             downloadParams.leftMargin = dp(9);
             actions.addView(download, downloadParams);
+            if (id.equals(selectedDownloadId)) {
+                selectedDownloadId = null;
+                download.post(download::performClick);
+            }
             download.setOnClickListener(v -> {
                 if (downloadInProgress) {
                     showMessage("Başka bir video indiriliyor.");
