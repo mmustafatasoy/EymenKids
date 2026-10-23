@@ -3,6 +3,7 @@ package com.eymen.kids;
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.*;
+import androidx.webkit.WebViewAssetLoader;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
@@ -19,13 +20,14 @@ public class MainActivity extends Activity {
   @Override public void onCreate(Bundle state) {
     super.onCreate(state);
     container = new FrameLayout(this);
+    final WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder().addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this)).build();
     web = new WebView(this);
     container.addView(web);
     setContentView(container);
     WebSettings settings = web.getSettings();
     settings.setJavaScriptEnabled(true);
     settings.setDomStorageEnabled(true);
-    settings.setAllowFileAccess(true);
+    settings.setAllowFileAccess(false);
     settings.setMediaPlaybackRequiresUserGesture(false);
     web.setWebChromeClient(new WebChromeClient() {
       @Override public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> callback, FileChooserParams params) {
@@ -52,6 +54,9 @@ public class MainActivity extends Activity {
       @Override public void onHideCustomView() { closeFullscreen(); }
     });
     web.setWebViewClient(new WebViewClient() {
+      @Override public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+        return assetLoader.shouldInterceptRequest(request.getUrl());
+      }
       @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
         Uri uri = request.getUrl();
         if ("file".equals(uri.getScheme()) || "https".equals(uri.getScheme()) && ("www.youtube.com".equals(uri.getHost()) || "www.youtube-nocookie.com".equals(uri.getHost()))) return false;
@@ -59,7 +64,7 @@ public class MainActivity extends Activity {
         return true;
       }
     });
-    web.loadUrl("file:///android_asset/index.html");
+    web.loadUrl("https://appassets.androidplatform.net/assets/index.html");
   }
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
@@ -78,9 +83,10 @@ public class MainActivity extends Activity {
     fullscreenCallback = null;
   }
   @Override public void onBackPressed() {
-    if (fullscreenView != null) closeFullscreen();
-    else if (web.canGoBack()) web.goBack();
-    else super.onBackPressed();
+    if (fullscreenView != null) { closeFullscreen(); return; }
+    web.evaluateJavascript("String(window.eymenBack && window.eymenBack())", result -> {
+      if (!"\"true\"".equals(result)) MainActivity.super.onBackPressed();
+    });
   }
   @Override protected void onDestroy() {
     if (fileCallback != null) { fileCallback.onReceiveValue(null); fileCallback = null; }
