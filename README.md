@@ -34,3 +34,7 @@ Kaynak kodu [MIT lisansı](LICENSE) altındadır. Üçüncü taraf müzik, video
 ## 📦 APK içinde çevrimdışı video desteği
 
 Eymen Kids v1.2.0, `app/src/main/assets/videos/catalog.json` içindeki kayıtlara göre MP4 dosyalarını APK içinden, internet gerektirmeden oynatmak üzere hazırlanmıştır. Ayrıntılar için [video kütüphanesi talimatına](app/src/main/assets/videos/README.md) bakın. Gerçek videolar henüz pakete eklenmedi.
+
+## 📥 GitHub'a bağlı çevrimdışı video kütüphanesi (Android v1.4.0)
+
+Video dosyaları APK içine gömülmez. [Video ekleme ve GitHub Releases kılavuzu](video-catalog/README.md) ile dağıtım hakkınız olan MP4 dosyalarını GitHub Releases'e ekleyebilir; uygulamada **bir kez indir → internetsiz izle** iş akışını kullanabilirsiniz. İlk katalog henüz boştur. Medya indirmek için GitHub'daki kaynak dosyaya değil, **release asset** dosyasına bağlantı verin.
