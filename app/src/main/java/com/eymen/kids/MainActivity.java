@@ -85,11 +85,19 @@ public class MainActivity extends Activity {
               if (videos != null) {
                 for (int i = 0; i < videos.length(); i++) {
                   org.json.JSONObject item = videos.optJSONObject(i);
-                  if (item != null && id.equals(item.optString("id")) &&
-                      OfflineVideoStore.isDownloaded(MainActivity.this, item)) {
+                  if (item != null && id.equals(item.optString("id"))) {
                     Intent player = new Intent(MainActivity.this, OfflinePlayerActivity.class);
-                    player.putExtra(OfflinePlayerActivity.EXTRA_DOWNLOADED_ID, id);
-                    player.putExtra(OfflinePlayerActivity.EXTRA_TITLE, item.optString("title", "Eymen Kids"));
+                    if (OfflineVideoStore.isDownloaded(MainActivity.this, item)) {
+                      player.putExtra(OfflinePlayerActivity.EXTRA_DOWNLOADED_ID, id);
+                    } else {
+                      try {
+                        String url = item.getString("url");
+                        OfflineVideoStore.validateReleaseUrl(url);
+                        player.putExtra(OfflinePlayerActivity.EXTRA_STREAM_URL, url);
+                      } catch (Exception invalidSource) { break; }
+                    }
+                    player.putExtra(OfflinePlayerActivity.EXTRA_TITLE,
+                        item.optString("episode_title", item.optString("title", "Eymen Kids")));
                     startActivity(player);
                     played = true;
                     break;
