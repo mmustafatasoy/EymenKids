@@ -128,6 +128,32 @@ main{padding:28px 0 60px}
 @media(max-width:660px){.container{width:calc(100% - 28px)}.topbar-inner{min-height:72px}.brand{gap:9px}.brand-mark{width:45px;height:45px;font-size:25px;border-radius:17px}.brand-name{font-size:24px;letter-spacing:-1.4px}.brand-copy small{font-size:8px;letter-spacing:.7px;margin-top:4px}.status-pill{display:none}.menu-btn{width:45px;height:45px;border-radius:15px;gap:5px}.menu-btn span{width:22px}.hero{grid-template-columns:1fr;min-height:0;border-radius:26px}.hero-content{padding:27px 24px 10px;align-items:flex-start}.hero h1{font-size:clamp(37px,9vw,58px);margin:12px 0 7px}.hero p{font-size:14px;max-width:330px;margin-bottom:16px}.hero-eyebrow{font-size:10px;padding:7px 12px}.hero-actions .btn{min-height:46px;padding:9px 18px;font-size:13px}.hero-poster-wrap{padding:10px 23px 20px}.hero-poster{border:5px solid #ffffffb9;border-radius:20px;transform:rotate(0)}.hero-star{font-size:28px}.star-two{font-size:34px}.feature-strip{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:15px 0 27px}.feature{flex-direction:column;gap:5px;border-radius:16px;padding:11px 5px 9px;text-align:center}.feature-icon{height:36px;width:36px;font-size:22px;border-radius:12px}.feature strong{font-size:11px;letter-spacing:-.2px}.feature small{font-size:9px;margin-top:2px}.library-head{flex-direction:column;align-items:stretch;gap:15px}.headline h2{font-size:24px}.headline-emoji{font-size:22px;width:41px;height:41px}.library-note{font-size:12px}.search{width:100%}.search input{height:46px}.card-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.video-card{padding:6px 6px 11px;border-radius:18px}.video-card .poster{border-radius:13px}.card-title{font-size:14px}.card-copy{padding:10px 5px 0}.card-kind{font-size:10px}.card-label{font-size:9px;padding:5px 7px}.category{margin-top:28px}.bottom-ribbon{margin-top:33px;padding:17px;font-size:11px}.modal{padding:25px}}
 @media(max-width:370px){.brand-copy small{display:none}.card-bottom{align-items:flex-start;flex-wrap:wrap}.card-label{margin-top:3px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+/* Series and episode page: compact landscape cards with very rounded edges */
+.series-page{padding-top:22px;padding-bottom:60px}
+.series-back{border:0;background:white;border-radius:15px;padding:12px 19px;color:var(--purple);font-size:15px;font-weight:1000;box-shadow:0 6px 24px #8075a328;margin-bottom:20px}
+.series-hero{display:flex;align-items:center;gap:23px;border:3px solid white;border-radius:26px;padding:18px;background:linear-gradient(120deg,#f1e6ff,#ffe6f2,#fff3d5);box-shadow:var(--shadow)}
+.series-hero img{width:220px;max-width:37%;aspect-ratio:16/9;object-fit:cover;border-radius:19px}
+.series-hero h2{font-size:clamp(25px,3vw,42px);line-height:1.1;margin:0 0 8px}
+.series-hero p{font-size:14px;margin:0;color:#6e7397;line-height:1.55}
+.season-row{display:flex;gap:9px;overflow-x:auto;padding:21px 0 14px}
+.season-chip{flex-shrink:0;padding:11px 18px;border:2px solid #ded3ff;background:white;border-radius:999px;font-size:14px;color:#6344a2;font-weight:900}
+.season-chip.active{background:linear-gradient(115deg,#8249ed,#ad5cf2);color:white;border-color:#8249ed}
+.episodes-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.episode-card{display:flex;align-items:center;gap:14px;background:#fff;border:2px solid #ece5fd;border-radius:23px;padding:11px;box-shadow:0 10px 25px #6853a112;min-width:0}
+.episode-thumb{width:40%;max-width:175px;aspect-ratio:16/9;object-fit:cover;border-radius:15px;flex-shrink:0}
+.episode-content{min-width:0;flex:1}
+.episode-content strong{display:block;font-size:16px;line-height:1.25;font-weight:1000}
+.episode-meta{display:block;font-size:12px;color:#80869d;margin:5px 0 12px}
+.episode-actions{display:flex;gap:7px;flex-wrap:wrap}
+.episode-action{padding:8px 13px;font-size:12px;border:0;border-radius:11px;font-weight:900}
+.episode-action.watch{background:#8149ed;color:#fff}
+.episode-action.save{background:#e5fff0;color:#008e66}
+.episode-empty{margin-top:12px;background:#fff;border:2px dashed #d8cbfc;border-radius:24px;padding:24px;color:#756993;line-height:1.6}
+.episode-available-note{margin-top:19px;color:#7a7197;font-size:13px;line-height:1.5}
+@media(max-width:900px){.episodes-list{grid-template-columns:1fr}}
+@media(max-width:600px){.series-hero{gap:11px;padding:11px;border-radius:21px}.series-hero img{width:39%;max-width:none;border-radius:13px}.series-hero h2{font-size:24px}.series-hero p{font-size:12px}.episode-card{padding:9px;gap:10px;border-radius:17px}.episode-thumb{width:38%;border-radius:11px}.episode-content strong{font-size:14px}.episode-meta{font-size:11px;margin-bottom:7px}.episode-action{font-size:11px;padding:7px 10px}}
+
 </style>
 </head>
 <body>
@@ -195,6 +221,17 @@ main{padding:28px 0 60px}
   </div>
 </main>
 </div>
+
+<div class="container series-page" id="seriesPage" hidden>
+  <button class="series-back" id="seriesBack" type="button">← Tüm Videolar</button>
+  <div class="series-hero">
+    <img id="seriesImage" src="images/niloya.webp" alt="">
+    <div><h2 id="seriesTitle">Niloya</h2><p id="seriesDescription">Bölümler, sezonlar, çevrimiçi ve çevrimdışı izleme.</p></div>
+  </div>
+  <div class="season-row" id="seasonChips" aria-label="Sezon seç"></div>
+  <div class="episodes-list" id="episodeCards"></div>
+  <p class="episode-available-note">▶ İzle: internetten hemen oynat • ⬇ Çevrimdışı İndir: telefonuna kaydet ve internet kapalıyken izle.</p>
+</div>
 <div id="backdrop" class="backdrop" aria-hidden="true"></div>
 <aside class="drawer" id="drawer" aria-label="Eymen Kids menüsü" aria-hidden="true">
   <div class="drawer-top">
@@ -222,7 +259,7 @@ main{padding:28px 0 60px}
 <script>
 (function(){
 'use strict';
-const APP_VERSION='1.5.0';
+const APP_VERSION='1.6.0';
 const UI_CONFIG_URL='https://raw.githubusercontent.com/mmustafatasoy/EymenKids/main/ui-config.json';
 const VIDEO_CATALOG_URL='https://raw.githubusercontent.com/mmustafatasoy/EymenKids/main/video-catalog/catalog.json';
 const DEFAULT_CONFIG={
@@ -254,6 +291,9 @@ let remoteIds=storedJSON('eymen_video_ids',defaults);
 if(!Array.isArray(remoteIds)||remoteIds.length===0)remoteIds=defaults;
 let available=new Set(remoteIds.concat(defaults));
 let menuOpen=false,modalOpen=false,toastHandle=null,priorFocus=null;
+let catalogVideos=storedJSON('eymen_video_catalog',[]);
+if(!Array.isArray(catalogVideos))catalogVideos=[];
+let activeSeries=null,activeSeason=1;
 function applyConfig(value){
  if(!value||value.schema_version!==1||!Number.isInteger(value.revision)||value.revision<1)return false;
  const p=value.palette||{};
@@ -271,6 +311,12 @@ function applyConfig(value){
  store('eymen_ui_theme',value);
  return true;
 }
+function seriesOf(entry){return entry.series_id||entry.id}
+function getEpisodes(seriesId){
+ return catalogVideos.filter(item=>item&&seriesOf(item)===seriesId)
+   .sort((a,b)=>(Number(a.season)||1)-(Number(b.season)||1)||(Number(a.episode)||1)-(Number(b.episode)||1)||String(a.id).localeCompare(String(b.id)));
+}
+function hasEpisodes(seriesId){return getEpisodes(seriesId).length>0||available.has(seriesId)}
 function makeCard(item){
  const card=document.createElement('button');
  card.type='button';card.className='video-card';card.dataset.video=item.id;card.setAttribute('aria-label',item.title+' videosunu aç');
@@ -282,8 +328,8 @@ function makeCard(item){
  const title=document.createElement('div');title.className='card-title';title.textContent=item.title;copy.appendChild(title);
  const bottom=document.createElement('div');bottom.className='card-bottom';
  const kind=document.createElement('span');kind.className='card-kind';kind.textContent=item.group==='songs'?'♫ '+item.kind:'★ '+item.kind;bottom.appendChild(kind);
- const status=document.createElement('span');status.className='card-label '+(available.has(item.id)?'available':'soon');
- status.textContent=available.has(item.id)?'İndirilebilir':'Yakında';bottom.appendChild(status);copy.appendChild(bottom);card.appendChild(copy);
+ const status=document.createElement('span');status.className='card-label '+(hasEpisodes(item.id)?'available':'soon');
+ status.textContent=hasEpisodes(item.id)?'Bölümleri Gör':'Yakında';bottom.appendChild(status);copy.appendChild(bottom);card.appendChild(copy);
  card.addEventListener('click',()=>playItem(item.id));
  return card;
 }
@@ -300,10 +346,78 @@ function notify(message){
  toastHandle=setTimeout(()=>toast.classList.remove('show'),3400);
 }
 function playItem(id){
- if(!available.has(id)){notify('Bu video henüz GitHub arşivine eklenmedi.');return}
- if(isAndroid){window.location.href='eymenkids://select?id='+encodeURIComponent(id);return}
- showInfo('📱','Telefonda İzle','Eymen Kids Android uygulamasında videoyu bir kez indirerek internetsiz izleyebilirsin. Web ön izlemesinde yerel indirme özelliği kullanılamaz.');
+ const series=MEDIA.find(item=>item.id===id);
+ if(series){openSeries(id);return}
+ playEpisode(id);
 }
+function playEpisode(id){
+ if(isAndroid){window.location.href='eymenkids://select?id='+encodeURIComponent(id);return}
+ showInfo('📱','Videoyu İzle','Android sürümünde ▶ İzle ile GitHub üzerinden oynatabilir veya ⬇ Çevrimdışı İndir ile cihazına kaydedebilirsin.');
+}
+function downloadEpisode(id,seriesId){
+ if(isAndroid){window.location.href='eymenkids://download?id='+encodeURIComponent(id)+'&series='+encodeURIComponent(seriesId);return}
+ showInfo('📦','Çevrimdışı İndir','Video indirme Android APK içinde çalışır. Video tamamen indiğinde bağlantısız izlenebilir.');
+}
+function showHome(){
+ document.querySelector('main').hidden=false;
+ $('#seriesPage').hidden=true;
+ activeSeries=null;
+}
+function openSeries(id){
+ const group=MEDIA.find(m=>m.id===id);
+ if(!group)return;
+ toggleMenu(false);
+ closeModal();
+ activeSeries=id;activeSeason=1;
+ document.querySelector('main').hidden=true;
+ $('#seriesPage').hidden=false;
+ $('#seriesTitle').textContent=group.title;
+ $('#seriesImage').src=group.img;
+ $('#seriesDescription').textContent='Sezonlara ayrılmış bölümler • İnternette izle veya bir kez indirip internetsiz aç.';
+ renderSeries();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderSeries(){
+ if(!activeSeries)return;
+ const all=getEpisodes(activeSeries);
+ const seasons=[...new Set(all.map(e=>Number(e.season)||1))].sort((a,b)=>a-b);
+ const chips=$('#seasonChips');chips.replaceChildren();
+ if(!seasons.length)seasons.push(1);
+ if(!seasons.includes(activeSeason))activeSeason=seasons[0];
+ for(const season of seasons){
+  const chip=document.createElement('button');
+  chip.type='button';chip.className='season-chip'+(season===activeSeason?' active':'');
+  chip.textContent=season+'. Sezon';
+  chip.addEventListener('click',()=>{activeSeason=season;renderSeries()});
+  chips.appendChild(chip);
+ }
+ const list=$('#episodeCards');list.replaceChildren();
+ const episodes=all.filter(e=>(Number(e.season)||1)===activeSeason);
+ if(!episodes.length){
+  const empty=document.createElement('div');empty.className='episode-empty';
+  empty.textContent='Bu serinin videoları henüz GitHub arşivine yüklenmedi. Yeni MP4 eklediğimizde sezon ve bölümler burada otomatik sıralanacak.';
+  list.appendChild(empty);
+  return;
+ }
+ const poster=MEDIA.find(m=>m.id===activeSeries)?.img||'images/hero.webp';
+ for(const entry of episodes){
+  const card=document.createElement('article');card.className='episode-card';
+  const image=document.createElement('img');image.className='episode-thumb';image.src=poster;image.alt='';image.loading='lazy';
+  const content=document.createElement('div');content.className='episode-content';
+  const title=document.createElement('strong');title.textContent=entry.episode_title||entry.title||'Bölüm';
+  const meta=document.createElement('span');meta.className='episode-meta';
+  meta.textContent='S'+String(Number(entry.season)||1).padStart(2,'0')+' • B'+String(Number(entry.episode)||1).padStart(2,'0')+' • '+(entry.quality||'MP4');
+  const actions=document.createElement('div');actions.className='episode-actions';
+  const watch=document.createElement('button');watch.className='episode-action watch';watch.type='button';watch.textContent='▶ İzle';
+  watch.addEventListener('click',()=>playEpisode(entry.id));
+  const save=document.createElement('button');save.className='episode-action save';save.type='button';save.textContent='⬇ Çevrimdışı İndir';
+  save.addEventListener('click',()=>downloadEpisode(entry.id,activeSeries));
+  actions.appendChild(watch);actions.appendChild(save);
+  content.appendChild(title);content.appendChild(meta);content.appendChild(actions);
+  card.appendChild(image);card.appendChild(content);list.appendChild(card);
+ }
+}
+
 function filterSearch(value){
  const query=(value||'').toLocaleLowerCase('tr-TR').trim();
  const searching=query.length>0;
@@ -384,11 +498,13 @@ async function checkUpdates(){
  if(results[1].status==='fulfilled'){
   const value=results[1].value;
   if(value&&value.schema_version===1&&Array.isArray(value.videos)){
-   const ids=value.videos.filter(v=>v&&typeof v.id==='string'&&/^[a-z0-9-]{1,64}$/.test(v.id)).map(v=>v.id);
+   catalogVideos=value.videos.filter(v=>v&&typeof v.id==='string'&&/^[a-z0-9-]{1,64}$/.test(v.id));
+   store('eymen_video_catalog',catalogVideos);
+   const ids=catalogVideos.map(v=>v.id);
    const previous=[...available].sort().join('|');
    available=new Set(ids);
    remoteIds=ids;store('eymen_video_ids',remoteIds);
-   render();
+   render();renderSeries();
    if([...available].sort().join('|')!==previous)changes++;
    checked++;
   }
@@ -409,13 +525,14 @@ function openUpdates(){
  checkUpdates();
 }
 function home(){
- toggleMenu(false);closeModal();
+ toggleMenu(false);closeModal();showHome();
  $('#searchInput').value='';filterSearch('');
  window.scrollTo({top:0,behavior:'smooth'});
 }
 function initialize(){
  applyConfig(config);
  render();
+ $('#seriesBack').addEventListener('click',()=>{showHome();window.scrollTo({top:0,behavior:'smooth'})});
  $('#menuToggle').addEventListener('click',()=>toggleMenu(!menuOpen));
  $('#menuClose').addEventListener('click',()=>toggleMenu(false));
  $('#backdrop').addEventListener('click',()=>toggleMenu(false));
@@ -438,9 +555,18 @@ function initialize(){
 window.eymenBack=function(){
  if(modalOpen){closeModal();return true}
  if(menuOpen){toggleMenu(false);return true}
+ if(activeSeries){showHome();return true}
  return false;
 };
 initialize();
+getJSON(VIDEO_CATALOG_URL).then(value=>{
+ if(value&&value.schema_version===1&&Array.isArray(value.videos)){
+  catalogVideos=value.videos.filter(v=>v&&typeof v.id==='string'&&/^[a-z0-9-]{1,64}$/.test(v.id));
+  store('eymen_video_catalog',catalogVideos);
+  available=new Set(catalogVideos.map(v=>v.id));
+  render();renderSeries();
+ }
+}).catch(()=>{});
 })();
 </script>
 </body>
