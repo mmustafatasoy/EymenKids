@@ -1,3 +1,19 @@
+# Eymen Kids — GitHub'da otomatik video yükleme
+
+**Çu Çu Çu videosu bu sohbette `cu-cu-cu.mp4` olarak hazırlanmıştır (720p, 2:04, 12.706.584 bayt).**
+
+Videonun kullanım ve herkese açık dağıtım hakkına sahip olduğunuzdan emin olun. Yükleme işlemi:
+
+1. Hazırlanan `cu-cu-cu.mp4` dosyasını indirin.
+2. `https://github.com/mmustafatasoy/EymenKids/releases/new` sayfasına gidin.
+3. **Tag** alanına `kids-videos-1` yazın; **Release title** olarak `Eymen Kids - Cu Cu Cu` girin.
+4. Release eklerini ekleme alanında `cu-cu-cu.mp4` dosyasını seçin; **Publish release** düğmesine basın.
+5. `.github/workflows/release-index.yml` otomatik çalışır. Dosyanın gerçek boyutunu, SHA-256 özetini ve çözünürlüğünü hesaplayıp `video-catalog/catalog.json` içine kaydeder; artık katalog JSON dosyasını elle değiştirmek gerekmez.
+6. Eymen Kids v1.4.1 uygulamasını açıp `Video İndir -> Yenile -> Çu Çu Çu -> Çevrimdışı İndir` adımlarını takip edin.
+
+**Not:** Dosya henüz GitHub Release'e yüklenmediyse uygulamanın listesinde görünmez. Buradaki otomasyon, yalnızca `kids-videos-` etiketiyle yayımlanan release'leri indeksler. Sonradan release'e MP4 eklerseniz Actions > Add uploaded videos to Eymen Kids > Run workflow üzerinden aynı etiketi vererek listeyi elle yenileyebilirsiniz.
+
+---
 # Eymen Kids — GitHub video kütüphanesi
 
 Eymen Kids Android uygulaması, **yalnızca `mmustafatasoy/EymenKids` deposunun GitHub Releases MP4 dosyalarını** indirir. YouTube bağlantıları kullanılmaz. Videolar telefonun uygulama-özel hafızasına **bir kez** kaydedilir; internetsiz izlenir ve normal APK güncellemesinde korunur.
