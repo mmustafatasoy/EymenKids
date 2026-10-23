@@ -272,7 +272,7 @@ const MEDIA=[
  {id:'cu-cu-cu',title:'Çu Çu Çu',img:'images/cu.webp',kind:'Şarkı',group:'songs',duration:'2:04'},
  {id:'bakkal-amca',title:'Bakkal Amca',img:'images/bakkal.webp',kind:'Şarkı',group:'songs',duration:'3:20'},
  {id:'ari-viz-viz',title:'Arı Vız Vız',img:'images/ari.webp',kind:'Şarkı',group:'songs',duration:'2:56'},
- {id:'niloya',title:'Niloya Şarkıları',img:'images/niloya.webp',kind:'Şarkı',group:'songs',duration:'4:12'},
+ {id:'niloya',title:'Niloya',img:'images/niloya.webp',kind:'Çizgi Film',group:'cartoons',duration:'4:12'},
  {id:'tavsan-momo',title:'Tavşan Momo',img:'images/momo.webp',kind:'Şarkı',group:'songs',duration:''},
  {id:'mini-mini',title:'Mini Mini Bir Kuş',img:'images/mini.webp',kind:'Şarkı',group:'songs',duration:''},
  {id:'parmak-ailesi',title:'Parmak Ailesi',img:'images/parmak.webp',kind:'Şarkı',group:'songs',duration:''},
@@ -402,7 +402,16 @@ function renderSeries(){
  const poster=MEDIA.find(m=>m.id===activeSeries)?.img||'images/hero.webp';
  for(const entry of episodes){
   const card=document.createElement('article');card.className='episode-card';
-  const image=document.createElement('img');image.className='episode-thumb';image.src=poster;image.alt='';image.loading='lazy';
+  const image=document.createElement('img');image.className='episode-thumb';image.alt='';image.loading='lazy';
+  let imageSource=poster;
+  if(typeof entry.thumbnail_url==='string'){
+   try{
+    const url=new URL(entry.thumbnail_url);
+    if(url.protocol==='https:'&&url.hostname==='github.com'&&url.pathname.startsWith('/mmustafatasoy/EymenKids/releases/download/')&&/\.(webp|jpe?g)$/i.test(url.pathname))imageSource=url.href;
+   }catch(_){}
+  }
+  image.onerror=()=>{image.onerror=null;image.src=poster};
+  image.src=imageSource;
   const content=document.createElement('div');content.className='episode-content';
   const title=document.createElement('strong');title.textContent=entry.episode_title||entry.title||'Bölüm';
   const meta=document.createElement('span');meta.className='episode-meta';
