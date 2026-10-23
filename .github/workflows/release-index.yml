@@ -2,11 +2,16 @@ name: Add uploaded videos to Eymen Kids
 on:
   release:
     types: [published]
+  push:
+    tags: ['kids-videos-*']
+  schedule:
+    # Fallback if GitHub does not deliver a release/tag event.
+    - cron: '13 */3 * * *'
   workflow_dispatch:
     inputs:
       tag:
-        description: "Video release tag (e.g., kids-videos-1)"
-        required: true
+        description: "Optional tag. All published video releases are synchronized."
+        required: false
         type: string
 permissions:
   contents: write
@@ -26,11 +31,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Automatically index MP4 assets from video release
+      - name: Index all published video Releases, preserving series order
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
-        run: python3 scripts/index_release_videos.py
+        run: python3 scripts/sync_release_catalog.py
       - name: Publish updated video list
         run: |
           if ! git diff --quiet -- video-catalog/catalog.json; then
