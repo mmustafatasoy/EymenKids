@@ -70,6 +70,7 @@ public final class OfflinePlayerActivity extends Activity {
     private TextView subtitleLabel;
     private Button playPauseButton;
     private Button nextButton;
+    private Button backButton;
     private Button downloadButton;
     private SeekBar seekBar;
     private ObjectAnimator sparkle;
@@ -191,6 +192,7 @@ public final class OfflinePlayerActivity extends Activity {
         topControls.setBackground(gradient(new int[]{0xF2020B23, 0xD52B1B60}, 0));
 
         Button back = control("← Geri", 0xFF7146CA, 88);
+        backButton = back;
         back.setOnClickListener(v -> finish());
         topControls.addView(back, new LinearLayout.LayoutParams(dp(96), dp(48)));
 
@@ -555,15 +557,28 @@ public final class OfflinePlayerActivity extends Activity {
     }
 
     @Override public boolean dispatchKeyEvent(KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN &&
-            (event.getKeyCode() == KeyEvent.KEYCODE_MEDIA_NEXT ||
-             event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_R1)) {
-            advance(false);
-            return true;
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            int key = event.getKeyCode();
+            if (key == KeyEvent.KEYCODE_MEDIA_NEXT || key == KeyEvent.KEYCODE_CHANNEL_UP ||
+                key == KeyEvent.KEYCODE_BUTTON_R1) {
+                advance(false); return true;
+            }
+            if (key == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE && player != null) {
+                if (player.isPlaying()) player.pause(); else player.play();
+                showControls(); return true;
+            }
+            if (!inTransition && topControls != null &&
+                topControls.getVisibility() == View.GONE &&
+                (key == KeyEvent.KEYCODE_DPAD_CENTER || key == KeyEvent.KEYCODE_ENTER ||
+                 key == KeyEvent.KEYCODE_DPAD_UP || key == KeyEvent.KEYCODE_DPAD_DOWN ||
+                 key == KeyEvent.KEYCODE_DPAD_LEFT || key == KeyEvent.KEYCODE_DPAD_RIGHT)) {
+                showControls();
+                if (backButton != null) backButton.requestFocus();
+                return true;
+            }
         }
         return super.dispatchKeyEvent(event);
     }
-
     private void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         finish();
