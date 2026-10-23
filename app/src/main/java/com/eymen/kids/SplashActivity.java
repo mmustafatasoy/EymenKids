@@ -92,7 +92,7 @@ public final class SplashActivity extends Activity {
         animations.add(sway);
 
         TextView footer = new TextView(this);
-        footer.setText("✨ EYMEN KIDS ✨");
+        footer.setText("✨ Uygulama yükleniyor... ✨");
         footer.setGravity(Gravity.CENTER);
         footer.setTextColor(0xFFFFFFFF);
         footer.setTextSize(13);
@@ -101,6 +101,14 @@ public final class SplashActivity extends Activity {
             new FrameLayout.LayoutParams(-1, -2, Gravity.BOTTOM);
         footerLp.bottomMargin = dp(36);
         root.addView(footer, footerLp);
+        android.widget.ProgressBar loading = new android.widget.ProgressBar(this);
+        loading.setIndeterminate(true);
+        loading.setIndeterminateTintList(
+            android.content.res.ColorStateList.valueOf(0xFFFFE75B));
+        FrameLayout.LayoutParams loadingLp =
+            new FrameLayout.LayoutParams(dp(36), dp(36), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+        loadingLp.bottomMargin = dp(66);
+        root.addView(loading, loadingLp);
         setContentView(root);
 
         handler.postDelayed(() -> {
