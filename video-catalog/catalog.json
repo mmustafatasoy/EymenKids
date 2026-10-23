@@ -126,6 +126,20 @@
       "season": 1,
       "episode": 2,
       "episode_title": "Tospik 2"
+    },
+    {
+      "id": "parmak-ailesi-s01e01-parmak-ailesi",
+      "series_id": "parmak-ailesi",
+      "series_title": "Parmak Ailesi",
+      "season": 1,
+      "episode": 1,
+      "episode_title": "Parmak Ailesi",
+      "title": "Parmak Ailesi",
+      "description": "Parmak Ailesi • 1. Sezon, 1. Bölüm",
+      "quality": "MP4",
+      "size_bytes": 6290307,
+      "sha256": "16afdb78553c43f2a57c6694287777476ea9bc909e32e21d498b539db800d980",
+      "url": "https://github.com/mmustafatasoy/EymenKids/releases/download/kids-videos-10/parmak-ailesi-s01e01-parmak-ailesi.mp4"
     }
   ]
 }
