@@ -68,6 +68,15 @@ public class MainActivity extends Activity {
             String series = uri.getQueryParameter("series");
             if (OfflineVideoStore.validId(series)) library.putExtra("eymen.seriesId", series);
             startActivity(library);
+          } else if ("download".equals(uri.getHost())) {
+            String id = uri.getQueryParameter("id");
+            String series = uri.getQueryParameter("series");
+            if (OfflineVideoStore.validId(id)) {
+              Intent library = new Intent(MainActivity.this, VideoLibraryActivity.class);
+              library.putExtra("eymen.downloadId", id);
+              if (OfflineVideoStore.validId(series)) library.putExtra("eymen.seriesId", series);
+              startActivity(library);
+            }
           } else if ("select".equals(uri.getHost())) {
             String id = uri.getQueryParameter("id");
             boolean played = false;
