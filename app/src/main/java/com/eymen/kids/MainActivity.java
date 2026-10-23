@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
     setContentView(container);
     WebSettings settings = web.getSettings();
     settings.setJavaScriptEnabled(true);
-    settings.setUserAgentString(settings.getUserAgentString() + " EymenKidsAndroid/1.4");
+    settings.setUserAgentString(settings.getUserAgentString() + " EymenKidsAndroid/1.6");
     settings.setDomStorageEnabled(true);
     settings.setAllowFileAccess(false);
     settings.setMediaPlaybackRequiresUserGesture(false);
@@ -64,7 +64,10 @@ public class MainActivity extends Activity {
         if ("eymenkids".equals(uri.getScheme())) {
           if (!request.isForMainFrame()) return true;
           if ("library".equals(uri.getHost())) {
-            startActivity(new Intent(MainActivity.this, VideoLibraryActivity.class));
+            Intent library = new Intent(MainActivity.this, VideoLibraryActivity.class);
+            String series = uri.getQueryParameter("series");
+            if (OfflineVideoStore.validId(series)) library.putExtra("eymen.seriesId", series);
+            startActivity(library);
           } else if ("select".equals(uri.getHost())) {
             String id = uri.getQueryParameter("id");
             boolean played = false;
@@ -120,6 +123,11 @@ public class MainActivity extends Activity {
       }
     });
     web.loadUrl("https://appassets.androidplatform.net/assets/index.html");
+    // Refresh the small catalog in the background, keeping offline cached data.
+    new Thread(() -> {
+      try { OfflineVideoStore.refreshCatalog(getApplicationContext()); }
+      catch (Exception ignored) {}
+    }, "EymenCatalogSync").start();
   }
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
