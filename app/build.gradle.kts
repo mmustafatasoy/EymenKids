@@ -7,8 +7,8 @@ android {
     applicationId = "com.eymen.kids"
     minSdk = 24
     targetSdk = 35
-    versionCode = 8
-    versionName = "1.6.0"
+    versionCode = 9
+    versionName = "1.6.1"
   }
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_1_8
