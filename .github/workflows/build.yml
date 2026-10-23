@@ -19,6 +19,8 @@ jobs:
           java-version: '17'
       - name: Automatic series sorting tests
         run: python3 scripts/test_episode_catalog.py
+      - name: GitHub Release catalog sync regression tests
+        run: python3 scripts/test_release_sync.py
       - name: UI startup smoke test
         run: node scripts/smoke-ui.cjs
       - name: Install Android SDK packages
