@@ -86,8 +86,11 @@ def main():
     release = json.loads(run_command("gh", "api", f"repos/{repo}/releases/tags/{quote(tag, safe='')}"))
     if release.get("draft"):
         raise RuntimeError("Release is still a draft")
-    assets = sorted((a for a in release.get("assets", []) if SAFE_FILE.fullmatch(a.get("name", ""))),
+    all_assets = release.get("assets", [])
+    assets = sorted((a for a in all_assets if SAFE_FILE.fullmatch(a.get("name", ""))),
                     key=lambda a: a["name"])
+    image_assets = {a.get("name"): a for a in all_assets
+                    if a.get("name", "").endswith((".webp", ".jpg", ".jpeg"))}
     if not assets:
         print("No MP4 assets in this release")
         return
@@ -117,6 +120,11 @@ def main():
                 "sha256": sha,
                 "url": f"https://github.com/{repo}/releases/download/{quote(tag, safe='')}/{quote(name, safe='')}",
             })
+            thumbnail = next((image_assets[k] for k in
+                              (meta["id"] + ".webp", meta["id"] + ".jpg", meta["id"] + ".jpeg")
+                              if k in image_assets), None)
+            if thumbnail is not None:
+                meta["thumbnail_url"] = thumbnail["browser_download_url"]
             items[meta["id"]] = meta
             print(f"Episode: {meta['series_id']} S{meta['season']:02d}E{meta['episode']:02d} - {meta['title']}")
     catalog = {"schema_version": 1, "videos": sorted(items.values(), key=sort_key)}
