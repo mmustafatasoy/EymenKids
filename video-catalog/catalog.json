@@ -16,6 +16,20 @@
       "episode_title": "Bakkal Amca"
     },
     {
+      "id": "bakkal-amca-s01e02-ikinci-bolum",
+      "title": "İkinci Bölüm",
+      "description": "Bakkal Amca • 1. Sezon, 2. Bölüm",
+      "quality": "MP4",
+      "size_bytes": 19588257,
+      "sha256": "f0551460637c85c82605e0e63070976e8e540e51f743a078c4d2481b013a48cb",
+      "url": "https://github.com/mmustafatasoy/EymenKids/releases/download/kids-videos-3/bakkal-amca-s01e02-ikinci-bolum.mp4",
+      "series_id": "bakkal-amca",
+      "series_title": "Bakkal Amca",
+      "season": 1,
+      "episode": 2,
+      "episode_title": "İkinci Bölüm"
+    },
+    {
       "id": "cu-cu-cu",
       "title": "Çu Çu Çu",
       "description": "Çocuk şarkısı • yüksek kaliteli çevrimdışı izleme",
@@ -28,6 +42,62 @@
       "season": 1,
       "episode": 1,
       "episode_title": "Çu Çu Çu"
+    },
+    {
+      "id": "karpuz-adam-s01e01-sipsaksok",
+      "title": "Şipşakşok",
+      "description": "Karpuz Adam • 1. Sezon, 1. Bölüm",
+      "quality": "MP4",
+      "size_bytes": 31823458,
+      "sha256": "917fd4cb3a598cecd1b2c5adecd600477a8a324edc793c1d50461f57ba13fcc2",
+      "url": "https://github.com/mmustafatasoy/EymenKids/releases/download/kids-videos-7/karpuz-adam-s01e01-sipsaksok.mp4",
+      "series_id": "karpuz-adam",
+      "series_title": "Karpuz Adam",
+      "season": 1,
+      "episode": 1,
+      "episode_title": "Şipşakşok"
+    },
+    {
+      "id": "kukuli-s01e01-tursu-sarkisi",
+      "title": "Turşu Şarkısı",
+      "description": "Kukuli • 1. Sezon, 1. Bölüm",
+      "quality": "MP4",
+      "size_bytes": 9555842,
+      "sha256": "160818d4c947c6cfbc0369e4018a7745fb7c24c54f811f891d670c7c4d10f972",
+      "url": "https://github.com/mmustafatasoy/EymenKids/releases/download/kids-videos-6/kukuli-s01e01-tursu-sarkisi.mp4",
+      "series_id": "kukuli",
+      "series_title": "Kukuli",
+      "season": 1,
+      "episode": 1,
+      "episode_title": "Turşu Şarkısı"
+    },
+    {
+      "id": "niloya-s01e01-tospik",
+      "title": "Tospik",
+      "description": "Niloya • 1. Sezon, 1. Bölüm",
+      "quality": "MP4",
+      "size_bytes": 2320532,
+      "sha256": "d8ed63650f2e186dfc0dfd583e10043e7080da9e9fc35e154c4cef06f56f6508",
+      "url": "https://github.com/mmustafatasoy/EymenKids/releases/download/kids-videos-4/niloya-s01e01-tospik.mp4",
+      "series_id": "niloya",
+      "series_title": "Niloya",
+      "season": 1,
+      "episode": 1,
+      "episode_title": "Tospik"
+    },
+    {
+      "id": "niloya-s01e02-tospik-2",
+      "title": "Tospik 2",
+      "description": "Niloya • 1. Sezon, 2. Bölüm",
+      "quality": "MP4",
+      "size_bytes": 8418969,
+      "sha256": "090a3c604ffbc7635432c404560805d222f8b8baacad5bb72c25b96043e4a0e3",
+      "url": "https://github.com/mmustafatasoy/EymenKids/releases/download/kids-videos-5/niloya-s01e02-tospik-2.mp4",
+      "series_id": "niloya",
+      "series_title": "Niloya",
+      "season": 1,
+      "episode": 2,
+      "episode_title": "Tospik 2"
     }
   ]
 }
