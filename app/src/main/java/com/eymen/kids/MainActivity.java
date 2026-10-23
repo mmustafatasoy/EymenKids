@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
     setContentView(container);
     WebSettings settings = web.getSettings();
     settings.setJavaScriptEnabled(true);
-    settings.setUserAgentString(settings.getUserAgentString() + " EymenKidsAndroid/1.6");
+    settings.setUserAgentString(settings.getUserAgentString() + " EymenKidsAndroid/1.6.1");
     settings.setDomStorageEnabled(true);
     settings.setAllowFileAccess(false);
     settings.setMediaPlaybackRequiresUserGesture(false);
@@ -94,6 +94,7 @@ public class MainActivity extends Activity {
                         String url = item.getString("url");
                         OfflineVideoStore.validateReleaseUrl(url);
                         player.putExtra(OfflinePlayerActivity.EXTRA_STREAM_URL, url);
+                        player.putExtra(OfflinePlayerActivity.EXTRA_VIDEO_ID, id);
                       } catch (Exception invalidSource) { break; }
                     }
                     player.putExtra(OfflinePlayerActivity.EXTRA_TITLE,
