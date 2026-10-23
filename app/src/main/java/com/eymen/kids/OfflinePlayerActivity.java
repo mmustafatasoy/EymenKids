@@ -33,6 +33,7 @@ public final class OfflinePlayerActivity extends Activity {
     public static final String EXTRA_TITLE = "eymen.title";
     public static final String EXTRA_DOWNLOADED_ID = "eymen.downloadedId";
     public static final String EXTRA_STREAM_URL = "eymen.streamUrl";
+    public static final String EXTRA_VIDEO_ID = "eymen.videoId";
     private static final Pattern SAFE_FILE = Pattern.compile("[a-z0-9][a-z0-9-]*\\.(mp4|m4v|webm)");
     private ExoPlayer player;
     private PlayerView playerView;
@@ -100,6 +101,25 @@ public final class OfflinePlayerActivity extends Activity {
         badge.setTextColor(0xFF93EBCD);
         info.addView(badge);
         top.addView(info, new LinearLayout.LayoutParams(0, -2, 1f));
+
+        String streamVideoId = getIntent().getStringExtra(EXTRA_VIDEO_ID);
+        if (getIntent().getStringExtra(EXTRA_STREAM_URL) != null &&
+                OfflineVideoStore.validId(streamVideoId)) {
+            Button download = new Button(this);
+            download.setText("⬇ Çevrimdışı İndir");
+            download.setAllCaps(false);
+            download.setTextColor(0xFF16264D);
+            download.setTextSize(12);
+            download.setBackgroundTintList(
+                android.content.res.ColorStateList.valueOf(0xFFFFDC59));
+            download.setOnClickListener(v -> {
+                Intent library = new Intent(OfflinePlayerActivity.this, VideoLibraryActivity.class);
+                library.putExtra("eymen.downloadId", streamVideoId);
+                // The library checks Wi-Fi/mobile-data approval and shows real progress.
+                startActivity(library);
+            });
+            top.addView(download, new LinearLayout.LayoutParams(dp(154), dp(48)));
+        }
 
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(-1, -2, Gravity.TOP);
         root.addView(top, lp);
