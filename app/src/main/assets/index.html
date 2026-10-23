@@ -317,6 +317,20 @@ function getEpisodes(seriesId){
    .sort((a,b)=>(Number(a.season)||1)-(Number(b.season)||1)||(Number(a.episode)||1)-(Number(b.episode)||1)||String(a.id).localeCompare(String(b.id)));
 }
 function hasEpisodes(seriesId){return getEpisodes(seriesId).length>0||available.has(seriesId)}
+function allSeries(){
+ const groups=MEDIA.slice();
+ const known=new Set(groups.map(g=>g.id));
+ for(const episode of catalogVideos){
+  if(!episode||typeof episode.id!=='string')continue;
+  const group=seriesOf(episode);
+  if(!/^[a-z0-9][a-z0-9-]{0,63}$/.test(group)||known.has(group))continue;
+  known.add(group);
+  const fallbackTitle=group.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  const title=typeof episode.series_title==='string'&&episode.series_title.length<=90?episode.series_title:fallbackTitle;
+  groups.push({id:group,title,img:'images/hero.webp',kind:'Yeni Seri',group:'cartoons',duration:''});
+ }
+ return groups;
+}
 function makeCard(item){
  const card=document.createElement('button');
  card.type='button';card.className='video-card';card.dataset.video=item.id;card.setAttribute('aria-label',item.title+' videosunu aç');
@@ -336,8 +350,8 @@ function makeCard(item){
 function fill(selector,items){const parent=$(selector);parent.replaceChildren(...items.map(makeCard))}
 function render(){
  fill('#featuredGrid',MEDIA.slice(0,4));
- fill('#songGrid',MEDIA.filter(x=>x.group==='songs'));
- fill('#cartoonGrid',MEDIA.filter(x=>x.group==='cartoons'));
+ fill('#songGrid',allSeries().filter(x=>x.group==='songs'));
+ fill('#cartoonGrid',allSeries().filter(x=>x.group==='cartoons'));
  filterSearch($('#searchInput').value);
 }
 function notify(message){
@@ -346,7 +360,7 @@ function notify(message){
  toastHandle=setTimeout(()=>toast.classList.remove('show'),3400);
 }
 function playItem(id){
- const series=MEDIA.find(item=>item.id===id);
+ const series=allSeries().find(item=>item.id===id);
  if(series){openSeries(id);return}
  playEpisode(id);
 }
@@ -364,7 +378,7 @@ function showHome(){
  activeSeries=null;
 }
 function openSeries(id){
- const group=MEDIA.find(m=>m.id===id);
+ const group=allSeries().find(m=>m.id===id);
  if(!group)return;
  toggleMenu(false);
  closeModal();
@@ -399,7 +413,7 @@ function renderSeries(){
   list.appendChild(empty);
   return;
  }
- const poster=MEDIA.find(m=>m.id===activeSeries)?.img||'images/hero.webp';
+ const poster=allSeries().find(m=>m.id===activeSeries)?.img||'images/hero.webp';
  for(const entry of episodes){
   const card=document.createElement('article');card.className='episode-card';
   const image=document.createElement('img');image.className='episode-thumb';image.alt='';image.loading='lazy';
@@ -435,7 +449,7 @@ function filterSearch(value){
  $('#cartoons').hidden=searching;
  const results=$('#searchResults');results.hidden=!searching;
  if(!searching)return;
- const found=MEDIA.filter(m=>m.title.toLocaleLowerCase('tr-TR').includes(query));
+ const found=allSeries().filter(m=>m.title.toLocaleLowerCase('tr-TR').includes(query));
  fill('#resultGrid',found);
  $('#noResults').hidden=found.length>0;
 }
