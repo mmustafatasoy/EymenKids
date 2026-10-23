@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Rounded gradient-like purple + blue brand plate -->
+    <path android:fillColor="#5734D1" android:pathData="M24,2 L84,2 Q106,2 106,24 L106,84 Q106,106 84,106 L24,106 Q2,106 2,84 L2,24 Q2,2 24,2 Z"/>
+    <path android:fillColor="#7656EE" android:pathData="M24,6 L84,6 Q102,6 102,24 L102,55 Q82,39 53,52 Q26,62 6,50 L6,24 Q6,6 24,6 Z"/>
+    <path android:fillColor="#2FA8F7" android:pathData="M6,65 Q38,40 73,64 Q91,76 102,57 L102,84 Q102,102 84,102 L24,102 Q6,102 6,84 Z"/>
+    <!-- Friendly star stickers -->
+    <path android:fillColor="#FFE74C" android:pathData="M90,13 L93,20 L101,21 L95,26 L96,34 L90,30 L83,34 L85,26 L79,21 L87,20 Z"/>
+    <path android:fillColor="#FF91DD" android:pathData="M18,67 L21,72 L27,73 L22,77 L23,83 L18,80 L13,83 L14,77 L9,73 L15,72 Z"/>
+    <path android:fillColor="#B6FFE7" android:pathData="M18,13 L20,18 L25,20 L20,22 L18,27 L16,22 L11,20 L16,18 Z"/>
+    <!-- The initial E in sunny yellow -->
+    <path android:fillColor="#3B257D" android:pathData="M23,35 L51,35 L51,46 L36,46 L36,52 L48,52 L48,63 L36,63 L36,70 L52,70 L52,81 L23,81 Z"/>
+    <path android:fillColor="#FFD949" android:pathData="M20,32 L48,32 L48,43 L33,43 L33,49 L45,49 L45,60 L33,60 L33,67 L49,67 L49,78 L20,78 Z"/>
+    <!-- The initial K in candy pink -->
+    <path android:fillColor="#3B257D" android:pathData="M59,35 L72,35 L72,51 L84,35 L99,35 L84,56 L99,81 L83,81 L74,65 L72,69 L72,81 L59,81 Z"/>
+    <path android:fillColor="#FF80BE" android:pathData="M56,32 L69,32 L69,48 L81,32 L96,32 L81,53 L96,78 L80,78 L71,62 L69,66 L69,78 L56,78 Z"/>
+    <!-- Smile under the logo -->
+    <path android:strokeColor="#FFFFFF" android:strokeWidth="3" android:strokeLineCap="round"
+        android:fillColor="#00000000" android:pathData="M40,89 Q54,98 71,88"/>
+</vector>
