@@ -72,13 +72,24 @@
     <section class="view" id="instagram"><h1 class="headline">📷 Instagram</h1><div class="surface"><p><b>@mmustafatasoy</b></p><p><a href="https://www.instagram.com/mmustafatasoy/">Instagram profilini aç ↗</a></p></div></section>
     <section class="view" id="settings"><h1 class="headline">⚙️ Ayarlar</h1><div class="surface"><h2>Uygulama Tercihleri</h2><p>Başlangıç animasyonu ve içerik oynatıcı seçenekleri.</p><label class="checkbox-line"><input id="splashPref" type="checkbox" checked> Açılış ekranını göster</label><p><button class="action secondary" id="replaySplash">🌟 Açılışı Yeniden Oynat</button></p><p class="note">Video bağlantıları bu cihazda saklanır. YouTube videolarının gömülü oynatılabilmesi yayıncı iznine bağlıdır.</p></div></section>
     <section class="view" id="parent"><h1 class="headline">🔒 Ebeveyn Kontrolü</h1><div class="surface"><h2>İçerik Yönetimi</h2><p>Bir video seçtiğinde YouTube bağlantısını veya MP4 adresini ekleyebilirsin. Böylece sonraki seçimde doğrudan oynar.</p><p class="note">PIN koruması ve süre sınırlaması bu sürümde henüz etkin değildir. Çocuk güvenliği için bu ekranı gerçek bir ebeveyn kilidi olarak değerlendirmeyin.</p></div></section>
-    <section class="view" id="about"><h1 class="headline">ℹ️ Hakkında</h1><div class="surface"><h2>Eymen Kids v1.4.0</h2><p>Minik Kalpler İçin, Büyük Mutluluklar! 💗</p><p>Geliştirici: <b>Muhammet Atasoy</b></p><p><a href="mailto:teknobloggs@hotmail.com">teknobloggs@hotmail.com</a></p><p><a href="https://github.com/mmustafatasoy/EymenKids">GitHub kaynak kodu ↗</a></p><p><a href="https://github.com/mmustafatasoy/EymenKids/releases/latest">🔄 Güncellemeleri kontrol et ↗</a></p><p class="note">Güncelleme bağlantısı yayınlanan sürüm sayfasını açar, uygulamayı sessizce güncellemez.</p></div></section>
+    <section class="view" id="about"><h1 class="headline">ℹ️ Hakkında</h1><div class="surface"><h2>Eymen Kids v1.4.1</h2><p>Minik Kalpler İçin, Büyük Mutluluklar! 💗</p><p>Geliştirici: <b>Muhammet Atasoy</b></p><p><a href="mailto:teknobloggs@hotmail.com">teknobloggs@hotmail.com</a></p><p><a href="https://github.com/mmustafatasoy/EymenKids">GitHub kaynak kodu ↗</a></p><p><a href="https://github.com/mmustafatasoy/EymenKids/releases/latest">🔄 Güncellemeleri kontrol et ↗</a></p><p class="note">Güncelleme bağlantısı yayınlanan sürüm sayfasını açar, uygulamayı sessizce güncellemez.</p></div></section>
     <footer class="footer">⭐ Eymen Kids • Minik Kalpler İçin Büyük Mutluluklar</footer>
   </main>
 </div>
 </div>
 <div id="player" role="dialog" aria-modal="true" aria-label="Eymen Kids video oynatıcı"><div id="playerbar"><button class="back" id="closePlayer">← Kapat</button><strong id="playerTitle">Çocuk Şarkısı</strong><button class="action secondary favorite" id="favBtn" title="Favorilerime ekle">♡</button></div><div class="player-screen" id="screen"><div class="empty-player" id="emptyPlayer"><div style="font-size:60px">🎬</div><h2>İzlemeye Hazır!</h2><p>Bu video henüz APK içinde kayıtlı değil. Sahip olduğun MP4 dosyasını seçebilir veya isteğe bağlı çevrimiçi bir bağlantı ekleyebilirsin. APK içine eklenen videolar burada otomatik ve internetsiz oynar.</p><input class="entry" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." inputmode="url" aria-label="Video bağlantısı"><button class="action" id="saveAndPlay">▶ Kaydet ve Oynat</button><button class="action secondary" id="chooseLocal">📂 Telefonda Video Seç</button><p id="sourceError" role="status"></p></div><iframe id="youtubeFrame" title="Eymen Kids YouTube oynatıcısı" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" hidden></iframe><video id="mp4Player" controls playsinline hidden></video></div><div class="player-bottom"><span id="playingSource">Eymen Kids Video Oynatıcı</span><button id="changeVideo">⚙️ Video bağlantısını değiştir</button></div></div>
 <input type="file" id="playerFile" accept="video/*" hidden>
+<script>
+(function(){
+  function escapeSplash(){
+    var splash=document.getElementById('splash');
+    if(splash && !splash.classList.contains('done')) splash.classList.add('done');
+  }
+  window.addEventListener('DOMContentLoaded',function(){
+    window.setTimeout(escapeSplash,6500);
+  });
+})();
+</script>
 <script>
 'use strict';
 const MEDIA=[
