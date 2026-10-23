@@ -369,6 +369,7 @@ public final class VideoLibraryActivity extends Activity {
             OfflineVideoStore.validateReleaseUrl(url);
             Intent player = new Intent(this, OfflinePlayerActivity.class);
             player.putExtra(OfflinePlayerActivity.EXTRA_STREAM_URL, url);
+            player.putExtra(OfflinePlayerActivity.EXTRA_VIDEO_ID, entry.optString("id"));
             player.putExtra(OfflinePlayerActivity.EXTRA_TITLE,
                 entry.optString("episode_title", entry.optString("title", "Video")));
             startActivity(player);
