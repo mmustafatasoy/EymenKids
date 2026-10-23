@@ -44,6 +44,11 @@ const document={
  addEventListener(n,cb){this[n]=cb}
 };
 const storage=new Map();
+storage.set('eymen_video_catalog',JSON.stringify([
+ {id:'niloya-s01e02-ucurtma',series_id:'niloya',season:1,episode:2,episode_title:'Uçurtma',title:'Uçurtma',quality:'720p'},
+ {id:'niloya-s02e01-kar-yagiyor',series_id:'niloya',season:2,episode:1,episode_title:'Kar Yağıyor',title:'Kar Yağıyor',quality:'720p'},
+ {id:'niloya-s01e01-tospik',series_id:'niloya',season:1,episode:1,episode_title:'Tospik',title:'Tospik',quality:'720p'}
+]));
 const window={scrollTo(){},location:{href:""},addEventListener(){}};
 const context={
  document,window,navigator:{userAgent:"EymenKidsAndroid/1.5"},
@@ -78,4 +83,24 @@ assert(lookup("#resultGrid").children.length===1,"Search filtering incorrect");
 lookup("#searchInput").value="";
 lookup("#searchInput").listeners.input({target:lookup("#searchInput")});
 assert(lookup("#searchResults").hidden===true,"Search did not reset");
+
+// Simulate Niloya series navigation, automatically sorted seasons and episode actions.
+const niloya=lookup("#featuredGrid").children[3];
+niloya.click();
+assert(lookup("#seriesPage").hidden===false,"Series page did not open");
+assert(lookup("main").hidden===true,"Home was not hidden while browsing series");
+assert(lookup("#seasonChips").children.length===2,"Season chips not generated");
+assert(lookup("#episodeCards").children.length===2,"Season 1 episodes were not generated");
+const firstEpisode=lookup("#episodeCards").children[0];
+assert.equal(firstEpisode.children[1].children[0].textContent,"Tospik","Episodes are not ordered by episode number");
+firstEpisode.children[1].children[2].children[0].click();
+assert(window.location.href.includes("eymenkids://select?id=niloya-s01e01-tospik"),"Watch button is not wired");
+firstEpisode.children[1].children[2].children[1].click();
+assert(window.location.href.includes("eymenkids://download?id=niloya-s01e01-tospik"),"Offline download button is not wired");
+lookup("#seasonChips").children[1].click();
+assert(lookup("#episodeCards").children.length===1,"Season 2 episodes not filtered correctly");
+assert(lookup("#episodeCards").children[0].children[1].children[0].textContent==="Kar Yağıyor","Wrong second-season episode");
+assert(window.eymenBack(),"Back button did not exit series");
+assert(lookup("#seriesPage").hidden===true,"Series page did not close");
+
 console.log("PASS: colorful home, 1 drawer, about, search, mobile back and offline catalog routes.");

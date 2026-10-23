@@ -8,7 +8,12 @@
       "quality": "720p HD",
       "size_bytes": 8653680,
       "sha256": "425b0baae27df852ce878234e9a02355f133c69fa95116c8c526764f7d38e144",
-      "url": "https://github.com/mmustafatasoy/EymenKids/releases/download/kids-videos-1/cu-cu-cu.mp4"
+      "url": "https://github.com/mmustafatasoy/EymenKids/releases/download/kids-videos-1/cu-cu-cu.mp4",
+      "series_id": "cu-cu-cu",
+      "series_title": "Çu Çu Çu",
+      "season": 1,
+      "episode": 1,
+      "episode_title": "Çu Çu Çu"
     }
   ]
 }
