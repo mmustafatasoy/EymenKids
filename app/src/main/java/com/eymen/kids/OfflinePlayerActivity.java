@@ -23,6 +23,7 @@ import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.ui.AspectRatioFrameLayout;
 import androidx.media3.ui.PlayerView;
 import java.io.InputStream;
+import java.io.File;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -30,6 +31,7 @@ import java.util.regex.Pattern;
 public final class OfflinePlayerActivity extends Activity {
     public static final String EXTRA_ASSET_FILE = "eymen.assetFile";
     public static final String EXTRA_TITLE = "eymen.title";
+    public static final String EXTRA_DOWNLOADED_ID = "eymen.downloadedId";
     private static final Pattern SAFE_FILE = Pattern.compile("[a-z0-9][a-z0-9-]*\\.(mp4|m4v|webm)");
     private ExoPlayer player;
     private PlayerView playerView;
@@ -104,7 +106,17 @@ public final class OfflinePlayerActivity extends Activity {
 
         Uri uri = null;
         String file = getIntent().getStringExtra(EXTRA_ASSET_FILE);
-        if (file != null) {
+        String downloadedId = getIntent().getStringExtra(EXTRA_DOWNLOADED_ID);
+        if (downloadedId != null) {
+            if (!OfflineVideoStore.validId(downloadedId)) {
+                showError("Geçersiz video kimliği."); return;
+            }
+            File saved = OfflineVideoStore.offlineFile(this, downloadedId);
+            if (!saved.isFile() || saved.length() <= 0) {
+                showError("Bu video henüz çevrimdışı indirilmemiş."); return;
+            }
+            uri = Uri.fromFile(saved);
+        } else if (file != null) {
             file = file.toLowerCase(Locale.ROOT);
             if (!SAFE_FILE.matcher(file).matches()) {
                 showError("Geçersiz video dosya adı.");
